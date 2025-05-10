@@ -1,0 +1,403 @@
+body {
+  font-family: 'Fredoka', sans-serif;
+  text-align: center;
+  background: #3d00666a;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2 {
+  color: #fff;
+}
+
+h1 {
+  font-size: 48px;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  margin: 40px 0;
+  line-height: 1;
+}
+
+h2 {
+  margin: 10px 0;
+  font-size: 52px;
+}
+
+.tabuleiro {
+  display: grid;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto;
+}
+
+/* Layout dinâmico para diferentes quantidades de pares */
+.tabuleiro-6 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 colunas */
+  gap: 20px;
+  max-width: 55vw; /* Ajusta para a largura da tela */
+  margin: auto;
+}
+
+.tabuleiro-12 {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 6 colunas */
+  gap: 20px;
+  max-width: 60vw;
+  margin: auto;
+}
+
+.tabuleiro-18 {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr); /* 9 colunas */
+  gap: 15px;
+  max-width: 95vw;
+  margin: auto;
+}
+
+/* Tamanho dinâmico das cartas */
+.carta {
+  position: relative;
+  width: 100%; /* Ajusta automaticamente */
+  aspect-ratio: 1 / 1; /* Mantém a proporção quadrada */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+/* Ajuste para telas menores */
+@media (max-width: 600px) {
+  .tabuleiro-6 {
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas para telas pequenas */
+    gap: 10px;
+    max-width: 80vw;
+  }
+
+  .tabuleiro-12 {
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas para telas pequenas */
+    gap: 10px;
+    max-width: 90vw;
+  }
+
+  .tabuleiro-18 {
+    grid-template-columns: repeat(4, 1fr); /* 4 colunas para telas pequenas */
+    gap: 8px;
+    max-width: 100vw;
+  }
+
+  .carta {
+    width: 100%; /* Ajusta automaticamente */
+    aspect-ratio: 1 / 1; /* Mantém a proporção quadrada */
+  }
+}
+
+.carta-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s ease;
+  transform-style: preserve-3d;
+}
+
+.carta.virada .carta-inner {
+  transform: rotateY(180deg);
+}
+
+.carta-costas,
+.carta-frente {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.carta-costas {
+  background: #97649e;
+  color: #f6f1f1;
+}
+
+.carta-frente {
+  background-size: cover;
+  background-position: center;
+  transform: rotateY(180deg);
+}
+
+.tela-inicial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.foto-familia {
+  width: 300px;
+  max-width: 90%;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* Botões Estilizados */
+button {
+  background-color: #97649e;
+  color: #fff;
+  font-size: 22px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin: 10px;
+  font-family: 'Fredoka', sans-serif;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background-color: #3d0066;
+  transform: scale(1.05);
+}
+
+#btn-novo-jogo {
+  display: none;
+}
+
+#selecao-pares {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+
+/* Ajuste Responsivo */
+@media (max-width: 768px) {
+  .tabuleiro-6 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .tabuleiro-12 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .tabuleiro-18 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .carta {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+.escondido {
+  display: none !important;
+}
+
+#ranking {
+  position: fixed;
+  bottom: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #6a329f;
+  color: white;
+  padding: 15px 30px;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  z-index: 10;
+}
+
+#ranking.mostrar {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Layout dinâmico para o ranking conforme o número de pares */
+.ranking-6 {
+  max-width: 300px;
+  font-size: 20px;
+}
+
+.ranking-12 {
+  max-width: 400px;
+  font-size: 22px;
+}
+
+.ranking-18 {
+  max-width: 500px;
+  font-size: 24px;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+#ranking h2 {
+  margin-bottom: 15px;
+  font-size: 28px;
+  color: #f6f1f1;
+  font-weight: bold;
+}
+
+#lista-ranking {
+  list-style-type: none;
+  padding: 0;
+}
+
+#lista-ranking li {
+  background-color: #97649e;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+#lista-ranking li:hover {
+  transform: scale(1.05);
+  background-color: #3d0066;
+}
+
+#ranking table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#ranking th, #ranking td {
+  padding: 10px;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  text-align: center;
+}
+
+#ranking th {
+  background-color: #3d0066;
+  font-size: 22px;
+}
+
+#ranking td {
+  background-color: #97649e;
+  font-size: 18px;
+}
+
+/* Botão de Reiniciar dentro do Ranking */
+#btn-novo-jogo {
+  background-color: #97649e;
+  color: #fff;
+  font-size: 20px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-family: 'Fredoka', sans-serif;
+  transition: background-color 0.3s;
+  display: block;
+  margin: 20px auto; /* Centraliza dentro do ranking */
+}
+
+#btn-novo-jogo:hover {
+  background-color: #3d0066;
+}
+
+/* Botão de Zerar Ranking */
+#btn-zerar-ranking {
+  background-color: #97649e;
+  color: #fff;
+  font-size: 20px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-family: 'Fredoka', sans-serif;
+  transition: background-color 0.3s;
+}
+
+#btn-zerar-ranking:hover {
+  background-color: #3d0066;
+}
+
+#btn-voltar-menu {
+  background-color: #97649e;
+  color: #fff;
+  font-size: 20px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-family: 'Fredoka', sans-serif;
+  transition: background-color 0.3s;
+}
+
+#btn-voltar-menu:hover {
+  background-color: #3d0066;
+}
+
+#btn-voltar-menu:active {
+  transform: scale(0.98);
+}
+
+#cronometro {
+  display: none;  /* Garante que comece oculto */
+}
+
+.escondido {
+  display: none;
+  visibility: hidden;
+}
+
+#btn-voltar-menu, #cronometro {
+  position: absolute;
+  left: 10px;
+  background-color: #6a329f;
+  color: white;
+  padding: 20px 15px;
+  margin: 5px 0;
+  border-radius: 10px;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#btn-voltar-menu {
+  top: 10px;
+}
+
+#cronometro {
+  top: 80px; /* Para garantir que fique abaixo do botão */
+}
+
+.texto-pares {
+  font-size: 34px;    /* Tamanho da letra */
+  color: #3d0066;        /* Cor da letra (branca) */
+  font-weight: bold;  /* Negrito para destaque */
+  margin: 20px 0;     /* Margem superior e inferior */
+  text-align: center; /* Centraliza o texto */
+}
+

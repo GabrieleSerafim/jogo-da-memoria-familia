@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jogo da Família</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jogo da Família</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <!-- Tela Inicial -->
+    <div id="tela-inicial" class="tela-inicial">
+        <img src="imagens/familia.jpeg" alt="Foto da Família" class="foto-familia" />
+        <h2>Você quer jogar?</h2>
+        <p class="texto-pares">Escolha a dificuldade</p>
+        <div id="selecao-pares">
+            <button class="btn-pares" data-pares="6">Fácil</button>
+            <button class="btn-pares" data-pares="12">Médio</button>
+            <button class="btn-pares" data-pares="18">Difícil</button>
+        </div>
+    </div>
+
+    <!-- Botão para voltar ao menu durante o jogo -->
+    <button id="btn-voltar-menu" style="display:none;">Voltar ao Menu</button>
+
+    <!-- Cronômetro -->
+<div id="cronometro" class="cronometro">
+    <span id="tempo">00:00</span>
+</div>
+
+    <!-- Título do Jogo -->
+    <h1 id="titulo-jogo" class="escondido">Jogo da Memória</h1>
+
+    <!-- Tabuleiro -->
+    <div id="tabuleiro" class="tabuleiro escondido">
+        
+    </div>
+
+    <!-- Ranking -->
+    <div id="ranking" class="escondido">
+        <h2>Ranking dos Mais Rápidos</h2>
+        <ul id="lista-ranking"></ul>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <button id="btn-zerar-ranking" style="margin: 10px;">Zerar Ranking</button>
+            <button id="btn-novo-jogo" style="margin: 10px;">Jogar Novamente</button>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
